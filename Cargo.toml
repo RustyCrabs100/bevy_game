@@ -1,0 +1,48 @@
+[package]
+name = "testing_bevy"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# bevy_rapier3d
+rapier = { "package" = "bevy_rapier3d", "git" = " https://github.com/Buncys/bevy_rapier.git ", branch = "bevy-0.18.0", default-features = false, features = [
+    "dim3",
+    "enhanced-determinism",
+    "async-collider",
+] }
+
+bevy = { version = "0.18.0", default-features = false, features = [
+    "3d",
+    "ui",
+    "webgpu",
+    "dds",
+    "audio",
+    "web",
+    "web_asset_cache",
+] }
+
+
+[features]
+default = []
+debug = ["bevy/dev", "bevy/debug_glam_assert", "rapier/debug-render"]
+fast_compile = ["bevy/dynamic_linking"]
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+strip = "debuginfo"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = [
+    'cfg(__debug__)',
+    'cfg(__desktop__)',
+    'cfg(__wasm32__)',
+] }
+
+[lints.clippy]
