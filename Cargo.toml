@@ -26,6 +26,8 @@ bevy = { version = "0.18.0", default-features = false, features = [
 default = []
 debug = ["bevy/dev", "bevy/debug_glam_assert", "rapier/debug-render"]
 fast_compile = ["bevy/dynamic_linking"]
+# Used for CI testing
+headless = []
 
 [profile.dev]
 opt-level = 1

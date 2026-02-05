@@ -35,7 +35,14 @@ fn main() {
 }
 
 fn close_on_esc(key: Res<ButtonInput<KeyCode>>, mut exit: MessageWriter<AppExit>) {
+    #[cfg(not(feature = "headless"))]
     if key.just_pressed(KeyCode::Escape) {
+        exit.write(AppExit::Success);
+    }
+    #[cfg(feature = "headless")]
+    {
+        std::thread::sleep(std::time::Duration::from_secs_f32(3));
+
         exit.write(AppExit::Success);
     }
 }
